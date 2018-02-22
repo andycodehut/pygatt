@@ -410,6 +410,7 @@ class GATTToolBackend(BLEBackend):
         log.info("Removed bonds for %s", address)
 
     def _disconnect(self, event):
+        print("Device disconnected")
         try:
             self.disconnect(self._connected_device)
         except NotConnectedError:
