@@ -387,6 +387,7 @@ class GATTToolBackend(BLEBackend):
             log.error(message)
             raise NotConnectedError(message)
 
+        self.sendline('mtu 512')
         self._connected_device = GATTToolBLEDevice(address, self)
         return self._connected_device
 
