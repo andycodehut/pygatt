@@ -186,7 +186,7 @@ class GATTToolBackend(BLEBackend):
     """
 
     def __init__(self, hci_device='hci0', gatttool_logfile=None,
-                 cli_options=None, search_window_size=200):
+                 cli_options=None, search_window_size=200, disconnect_callback=None):
         """
         Initialize.
 
@@ -212,6 +212,7 @@ class GATTToolBackend(BLEBackend):
         self._address = None
         self._send_lock = threading.Lock()
         self._search_window_size = search_window_size
+        self._disconnect_callback = disconnect_callback
 
     def sendline(self, command):
         """
@@ -414,6 +415,8 @@ class GATTToolBackend(BLEBackend):
             self.disconnect(self._connected_device)
         except NotConnectedError:
             pass
+        
+        self._disconnect_callback()
 
     @at_most_one_device
     def disconnect(self, *args, **kwargs):
